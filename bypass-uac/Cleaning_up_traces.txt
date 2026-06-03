@@ -1,0 +1,9 @@
+# Delete INF files
+del C:\temp\bypass.inf /f /q
+del C:\temp\task.xml /f /q
+
+# Kill cmstp process
+taskkill /f /im cmstp.exe 2>nul
+
+# Cleaning COM cache
+reg delete HKCR\CLSID\{3E5FC7F9-9A51-4367-9063-A120244FBEC7} /f 2>nul

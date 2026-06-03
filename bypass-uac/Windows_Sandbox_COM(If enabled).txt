@@ -1,0 +1,4 @@
+# Sandbox запускается с системными правами
+$sbx = New-Object -ComObject "WindowsSandbox.SandboxFactory"
+$config = "<Configuration><MappedFolders><MappedFolder><HostFolder>C:\temp</HostFolder></MappedFolder></MappedFolders><LogonCommand><Command>powershell.exe -ep bypass -c Start-Process cmd -Verb RunAs</Command></LogonCommand></Configuration>"
+$sbx.CreateSandbox($config)

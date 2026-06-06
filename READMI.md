@@ -3,7 +3,7 @@
 
 # Scripts
 
-Scripts
+Scripts for bypassing security systems, and more
 
 ## Fast Start
 

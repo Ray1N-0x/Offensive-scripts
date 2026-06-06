@@ -10,3 +10,4 @@ Scripts for bypassing security systems, and more
 ```bash
 git clone https://github.com/RayIN-0x/Offensive-scripts
 cd Offensive-scripts
+```
